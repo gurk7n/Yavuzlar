@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Quest App - Sorular</title>
+  </head>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background-color: #222222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 5vh 0;
+    }
+    .searchInp {
+      width: 360px;
+      font-size: 18px;
+      padding: 15px 10px;
+      background-color: black;
+      color: white;
+      border-radius: 10px 0 0 10px;
+      border: 2px solid black;
+      margin-bottom: 20px;
+    }
+    .searchInp:focus {
+      outline: none;
+    }
+    .searchBtn {
+      font-size: 18px;
+      padding: 15px 20px;
+      border-radius: 0 10px 10px 0;
+      background-color: darkgreen;
+      color: white;
+      border: 2px solid black;
+      margin-left: -15px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .searchBtn:hover {
+      background-color: rgb(15, 162, 23);
+    }
+    .questBox {
+      background-color: black;
+      color: white;
+      width: 550px;
+      font-size: 16px;
+      padding: 15px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .editBtn {
+      background-color: darkgoldenrod;
+      color: white;
+      font-size: 16px;
+      margin-inline: 10px;
+      margin-left: 30px;
+      border: 0;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .editBtn:hover {
+      background-color: white;
+      color: darkgoldenrod;
+    }
+    .delBtn {
+      background-color: darkred;
+      color: white;
+      font-size: 16px;
+      border: 0;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .delBtn:hover {
+      background-color: white;
+      color: darkred;
+    }
+    .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .geriBtn {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin-right: 20px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      background-color: darkcyan;
+      border: 3px solid black;
+    }
+    .geriBtn:hover {
+      background-color: rgb(8, 209, 209);
+    }
+    .topTitle {
+      margin-top: 0;
+      color: white;
+    }
+  </style>
+  <body>
+    <h1 class="topTitle">Sorular</h1>
+    <div class="searchBox">
+      <a href="anasayfa.html"><button class="geriBtn">Geri Dön</button></a>
+      <input type="search" class="searchInp" placeholder="Soru.." />
+      <button type="submit" class="searchBtn">Ara</button>
+    </div>
+
+    <script>
+      const body = document.querySelector("body");
+      let sorular = [];
+
+      diziyeAktar();
+      function diziyeAktar() {
+        for (i = 1; i <= localStorage.length; i++) {
+          if (localStorage.getItem(`soru${i}`) != null) {
+            sorular.push(localStorage.getItem(`soru${i}`));
+          }
+        }
+      }
+
+      sorulariGetir();
+      function sorulariGetir() {
+        for (i = 0; i < sorular.length; i++) {
+          body.insertAdjacentHTML(
+            "beforeend",
+            `<div class='questBox'>${sorular[i]}<div class='buttons'><a href='soru-duzenle.html'><button class='editBtn'>Düzenle</button></a><button class='delBtn'>Sil</button></div></div>`
+          );
+        }
+      }
+
+      soruSil();
+      function soruSil() {
+        const delBtns = document.querySelectorAll(".delBtn");
+        delBtns.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var questBox = this.closest(".questBox");
+            var soruMetni = questBox.innerText.split("Düzenle")[0].trim();
+            var sayiNo = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+              let keyAdi = localStorage.key(i);
+              if (localStorage.getItem(keyAdi) === soruMetni) {
+                sayiNo = keyAdi;
+                break;
+              }
+            }
+
+            sorular = sorular.filter((e) => !e.includes(soruMetni));
+            localStorage.removeItem(`${sayiNo}`);
+            localStorage.removeItem(`${sayiNo}A`);
+            localStorage.removeItem(`${sayiNo}B`);
+            localStorage.removeItem(`${sayiNo}C`);
+            localStorage.removeItem(`${sayiNo}D`);
+            localStorage.removeItem(`${sayiNo}Cevap`);
+            localStorage.removeItem(`${sayiNo}Zorluk`);
+
+            questBox.remove();
+
+            localStorage.setItem("duzenleme", "1");
+          });
+        });
+      }
+
+      soruArama();
+      function soruArama() {
+        const searchBtn = document.querySelector(".searchBtn");
+        const searchInp = document.querySelector(".searchInp");
+
+        searchBtn.addEventListener("click", function () {
+          document.querySelectorAll(".questBox").forEach(function (box) {
+            box.remove();
+          });
+
+          for (i = 0; i < sorular.length; i++) {
+            if (
+              sorular[i].toLowerCase().includes(searchInp.value.toLowerCase())
+            ) {
+              body.insertAdjacentHTML(
+                "beforeend",
+                `<div class='questBox'>${sorular[i]}<div class='buttons'><a href='soru-duzenle.html'><button class='editBtn'>Düzenle</button></a><button class='delBtn'>Sil</button></div></div>`
+              );
+              soruSil();
+              soruDuzenle();
+            }
+          }
+        });
+      }
+
+      soruDuzenle();
+      function soruDuzenle() {
+        const editBtns = document.querySelectorAll(".editBtn");
+        editBtns.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var questBox = this.closest(".questBox");
+            var soruMetni = questBox.innerText.split("Düzenle")[0].trim();
+            var sayiNo = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+              let keyAdi = localStorage.key(i);
+              if (localStorage.getItem(keyAdi) === soruMetni) {
+                sayiNo = keyAdi;
+                break;
+              }
+            }
+            localStorage.setItem("soruDuzenle", sayiNo);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

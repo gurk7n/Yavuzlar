@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Quest App - Soru Düzenle</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        background-color: #222222;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .addBox {
+        color: white;
+        background-color: black;
+        padding: 30px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .radiobuttons {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      input {
+        margin: 5px;
+        padding: 12px;
+        font-size: 18px;
+        border-radius: 5px;
+      }
+      input:not([type="radio"]) {
+        width: 500px;
+      }
+      #orta {
+        margin-left: 20px;
+      }
+      #zor {
+        margin-left: 20px;
+      }
+      .secenek {
+        background-color: rgb(222, 220, 220);
+      }
+      .cevaplar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #B,
+      #C,
+      #D {
+        margin-left: 20px;
+      }
+      select {
+        font-size: 15px;
+        padding: 5px;
+      }
+      label {
+        font-size: 20px;
+      }
+      input[type="radio"] {
+        scale: 1.5;
+        margin-right: 10px;
+      }
+      .container {
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+      }
+      button {
+        font-size: 20px;
+        padding: 10px 50px;
+        border-radius: 15px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .editBtn {
+        background-color: rgb(201, 132, 3);
+        border: 3px solid rgb(100, 85, 0);
+      }
+      .editBtn:hover {
+        background-color: orange;
+      }
+      .geriBtn {
+        background-color: darkcyan;
+        border: 3px solid rgb(12, 151, 151);
+      }
+      .geriBtn:hover {
+        background-color: rgb(8, 209, 209);
+      }
+      select {
+        padding: 5px 10px;
+        margin-top: 5px;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+      .topTitle {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="addBox">
+      <h1 class="topTitle">Soru Düzenle</h1>
+      <input id="soru" type="text" placeholder="Soru Metni" />
+      <br />
+      <input id="soruA" type="text" class="secenek" placeholder="Seçenek A" />
+      <input id="soruB" type="text" class="secenek" placeholder="Seçenek B" />
+      <input id="soruC" type="text" class="secenek" placeholder="Seçenek C" />
+      <input id="soruD" type="text" class="secenek" placeholder="Seçenek D" />
+      <br />
+      <div class="container">
+        <div class="left">
+          Zorluk
+          <div class="radiobuttons">
+            <select id="zorluk" name="zorluk">
+              <option value="Kolay">Kolay</option>
+              <option value="Orta">Orta</option>
+              <option value="Zor">Zor</option>
+            </select>
+          </div>
+        </div>
+        <div class="right">
+          Cevap
+          <div class="cevaplar">
+            <input type="radio" id="A" name="cevap" />
+            <label for="A">A</label>
+            <input type="radio" id="B" name="cevap" />
+            <label for="B">B</label>
+            <input type="radio" id="C" name="cevap" />
+            <label for="C">C</label>
+            <input type="radio" id="D" name="cevap" />
+            <label for="D">D</label>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div>
+        <a href="sorular.html"
+          ><button class="geriBtn" style="margin-right: 20px">
+            Geri Dön
+          </button></a
+        >
+        <a href="sorular.html"><button class="editBtn">Düzenle</button></a>
+      </div>
+    </div>
+    <script>
+      let soruNo = localStorage.getItem("soruDuzenle");
+      document.querySelector("#soru").value = localStorage.getItem(soruNo);
+      document.querySelector("#soruA").value = localStorage.getItem(
+        `${soruNo}A`
+      );
+      document.querySelector("#soruB").value = localStorage.getItem(
+        `${soruNo}B`
+      );
+      document.querySelector("#soruC").value = localStorage.getItem(
+        `${soruNo}C`
+      );
+      document.querySelector("#soruD").value = localStorage.getItem(
+        `${soruNo}D`
+      );
+      document.querySelector("#zorluk").value = localStorage.getItem(
+        `${soruNo}Zorluk`
+      );
+      let secili = localStorage.getItem(`${soruNo}Cevap`);
+      document.querySelector(`#${secili}`).checked = true;
+
+      const editBtn = document.querySelector(".editBtn");
+      editBtn.addEventListener("click", function () {
+        let soru = document.querySelector("#soru").value;
+        let A = document.querySelector("#soruA").value;
+        let B = document.querySelector("#soruB").value;
+        let C = document.querySelector("#soruC").value;
+        let D = document.querySelector("#soruD").value;
+        let zorluk = document.querySelector("#zorluk").value;
+        let eklenenSoru = Number(localStorage.getItem("eklenenSoru"));
+
+        let dogruCevap;
+        const cevaplar = document.querySelectorAll('input[name="cevap"]');
+        for (let cevap of cevaplar) {
+          if (cevap.checked) {
+            dogruCevap = cevap.id;
+            break;
+          }
+        }
+
+        localStorage.setItem(`${soruNo}`, soru);
+        localStorage.setItem(`${soruNo}A`, A);
+        localStorage.setItem(`${soruNo}B`, B);
+        localStorage.setItem(`${soruNo}C`, C);
+        localStorage.setItem(`${soruNo}D`, D);
+        localStorage.setItem(`${soruNo}Cevap`, dogruCevap);
+        localStorage.setItem(`${soruNo}Zorluk`, zorluk);
+        localStorage.setItem("duzenleme", "1");
+      });
+    </script>
+  </body>
+</html>

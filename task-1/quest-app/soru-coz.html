@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Quest App - Soru Çöz</title>
+    <style>
+      body {
+        background-color: #222222;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        color: white;
+        font-family: "Poppins", sans-serif;
+        flex-direction: column;
+      }
+      .soru {
+        padding: 20px 40px;
+        background: rgb(0, 47, 177);
+        background: linear-gradient(
+          90deg,
+          rgba(0, 47, 177, 1) 0%,
+          rgba(18, 14, 72, 1) 100%
+        );
+        font-size: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        width: 500px;
+        border: 3px solid black;
+      }
+      .secenek {
+        width: 500px;
+        padding: 10px 20px;
+        background: rgb(22, 62, 79);
+        background: linear-gradient(
+          90deg,
+          rgba(22, 62, 79, 1) 0%,
+          rgba(61, 3, 148, 1) 100%
+        );
+        font-size: 18px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        border: 2px solid black;
+      }
+      .secenek:hover {
+        background: rgb(182, 163, 47);
+        background: linear-gradient(
+          90deg,
+          rgba(182, 163, 47, 1) 0%,
+          rgba(148, 118, 3, 1) 100%
+        );
+      }
+      .info {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 50%;
+        font-size: 18px;
+      }
+      .infoBox {
+        background: black;
+        padding: 5px 10px;
+        border-radius: 5px 5px 0 0;
+        margin-bottom: 0;
+      }
+      .yesil {
+        color: green;
+      }
+      .kirmizi {
+        color: red;
+      }
+      .alt {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 500px;
+        color: gray;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+        transition: 0.3s;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .alt > a {
+        color: gray;
+      }
+      #geriDon:hover,
+      #soruGec:hover {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Quest App</h1>
+    <div class="info">
+      <p class="infoBox">Zorluk: <span id="zorluk">Orta</span></p>
+      <p class="infoBox green">
+        <span class="yesil"><span id="dogru">0</span> D</span> /
+        <span class="kirmizi"> <span id="yanlis">0</span> Y</span>
+      </p>
+      <p class="infoBox">Puan: <span id="puan">0</span></p>
+    </div>
+    <div class="soru" id="soruMetni">Soru Metni</div>
+    <div class="secenek" id="secenekA">A-)</div>
+    <div class="secenek" id="secenekB">B-)</div>
+    <div class="secenek" id="secenekC">C-)</div>
+    <div class="secenek" id="secenekD">D-)</div>
+    <div class="alt">
+      <a href="anasayfa.html"><div id="geriDon">Ana Sayfa</div></a>
+      <div id="soruGec">Soruyu Geç</div>
+    </div>
+
+    <script>
+      let sorular = [];
+
+      diziyeAktar();
+      function diziyeAktar() {
+        for (i = 1; i <= localStorage.length; i++) {
+          if (localStorage.getItem(`soru${i}`) != null) {
+            let soruObjesi = {
+              soru: localStorage.getItem(`soru${i}`),
+              A: localStorage.getItem(`soru${i}A`),
+              B: localStorage.getItem(`soru${i}B`),
+              C: localStorage.getItem(`soru${i}C`),
+              D: localStorage.getItem(`soru${i}D`),
+              cevap: localStorage.getItem(`soru${i}Cevap`),
+              zorluk: localStorage.getItem(`soru${i}Zorluk`),
+              cozuldu: 0,
+            };
+            sorular.push(soruObjesi);
+          }
+        }
+      }
+
+      rastgeleSoruGetir();
+      function rastgeleSoruGetir() {
+        const cozulmemisSorular = sorular.filter((soru) => soru.cozuldu === 0);
+        const dogru = document.querySelector("#dogru");
+        const yanlis = document.querySelector("#yanlis");
+        const puan = document.querySelector("#puan");
+        const infos = document.querySelectorAll(".infoBox");
+
+        if (cozulmemisSorular.length > 0) {
+          const rastgeleIndex = Math.floor(
+            Math.random() * cozulmemisSorular.length
+          );
+          const soru = cozulmemisSorular[rastgeleIndex];
+
+          document.getElementById("soruMetni").innerText = soru.soru;
+          document.getElementById("secenekA").innerText = `A-) ${soru.A}`;
+          document.getElementById("secenekB").innerText = `B-) ${soru.B}`;
+          document.getElementById("secenekC").innerText = `C-) ${soru.C}`;
+          document.getElementById("secenekD").innerText = `D-) ${soru.D}`;
+          document.getElementById("zorluk").innerText = soru.zorluk;
+        } else {
+          document.getElementById("soruMetni").innerText =
+            "👏Tüm sorular çözüldü.";
+          document.getElementById("soruMetni").style.textAlign = "center";
+          document.getElementById(
+            "secenekA"
+          ).innerText = `✅Doğru Sayısı: ${dogru.innerText}`;
+          document.getElementById("secenekA").style.backgroundColor =
+            "rgb(42,177,0)";
+          document.getElementById("secenekA").style.backgroundImage =
+            "linear-gradient(90deg, rgba(42,177,0,1) 0%, rgba(14,72,21,1) 100%)";
+          document.getElementById(
+            "secenekB"
+          ).innerText = `❌Yanlış Sayısı: ${yanlis.innerText}`;
+          document.getElementById("secenekB").style.backgroundColor =
+            "rgb(177,0,0)";
+          document.getElementById("secenekB").style.backgroundImage =
+            "linear-gradient(90deg, rgba(177,0,0,1) 0%, rgba(72,14,14,1) 100%)";
+          document.getElementById(
+            "secenekC"
+          ).innerText = `⭐Puan: ${puan.innerText}`;
+          document.getElementById("secenekC").style.backgroundColor =
+            "rgb(173,177,0)";
+          document.getElementById("secenekC").style.backgroundImage =
+            "linear-gradient(90deg, rgba(173,177,0,1) 0%, rgba(67,72,14,1) 100%)";
+          document.getElementById("secenekD").style.backgroundColor =
+            "rgb(12,153,171)";
+          document.getElementById("secenekD").style.backgroundImage =
+            "linear-gradient(90deg, rgba(12,153,171,1) 0%, rgba(13,108,106,1) 100%)";
+          document.getElementById("secenekD").innerText = "⬅️Ana Sayfaya Dön";
+          document.getElementById("secenekA").style.cursor = "default";
+          document.getElementById("secenekB").style.cursor = "default";
+          document.getElementById("secenekC").style.cursor = "default";
+          document.getElementById("secenekD").style.textDecoration =
+            "underline";
+          document.getElementById("secenekD").style.textUnderlineOffset = "5px";
+          document
+            .getElementById("secenekD")
+            .addEventListener("click", function () {
+              window.location.href = "anasayfa.html";
+            });
+          document.getElementById("zorluk").style.display = "none";
+          document.querySelector(".alt").style.display = "none";
+          infos.forEach(function (info) {
+            info.style.display = "none";
+          });
+        }
+      }
+
+      cevapKontrol();
+      function cevapKontrol() {
+        const secenekler = document.querySelectorAll(".secenek");
+        secenekler.forEach(function (secenek) {
+          secenek.addEventListener("click", function () {
+            const soruMetni = document.querySelector("#soruMetni").innerText;
+            const secilenSoru = sorular.find(
+              (element) => element.soru === soruMetni
+            );
+            const secim = secenek.id.slice(-1);
+            if (secilenSoru.cevap == secim) {
+              const puan = document.querySelector("#puan");
+              const yanlis = document.querySelector("#yanlis");
+              const dogru = document.querySelector("#dogru");
+
+              secilenSoru.cozuldu = "1";
+              puan.innerText = String(Number(puan.innerText) + 10);
+              dogru.innerText = String(Number(dogru.innerText) + 1);
+              rastgeleSoruGetir();
+            } else {
+              secilenSoru.cozuldu = "1";
+              yanlis.innerText = String(Number(yanlis.innerText) + 1);
+
+              rastgeleSoruGetir();
+            }
+          });
+        });
+      }
+
+      soruGec();
+      function soruGec() {
+        const soruGec = document.querySelector("#soruGec");
+        soruGec.addEventListener("click", function () {
+          const cozulmemisSorular = sorular.filter(
+            (soru) => soru.cozuldu === 0
+          );
+          if (cozulmemisSorular.length <= 1) {
+            alert("Başka soru kalmadığı için geçemezsiniz.");
+          } else {
+            const soruMetni = document.querySelector("#soruMetni").innerText;
+            const sonuc = cozulmemisSorular.filter(
+              (element) => element.soru !== soruMetni
+            );
+            const rastgeleIndex = Math.floor(Math.random() * sonuc.length);
+            const soru = sonuc[rastgeleIndex];
+            document.getElementById("soruMetni").innerText = soru.soru;
+            document.getElementById("secenekA").innerText = `A-) ${soru.A}`;
+            document.getElementById("secenekB").innerText = `B-) ${soru.B}`;
+            document.getElementById("secenekC").innerText = `C-) ${soru.C}`;
+            document.getElementById("secenekD").innerText = `D-) ${soru.D}`;
+            document.getElementById("zorluk").innerText = soru.zorluk;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

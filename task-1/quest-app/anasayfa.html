@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Quest App</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        background-color: #222222;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      .adminLogo {
+        width: 100px;
+        margin-bottom: 30px;
+      }
+      .adminTxt {
+        margin: 0;
+        font-size: 36px;
+        color: white;
+      }
+      .adminBox {
+        background-color: #000000;
+        color: white;
+        padding: 15px 30px;
+        font-size: 28px;
+        border-radius: 15px;
+        border: 3px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+      .adminBox > img {
+        width: 48px;
+        margin-right: 15px;
+        justify-self: flex-start;
+      }
+      .adminBox:hover {
+        background-color: green;
+      }
+      a {
+        margin-top: 30px;
+        text-decoration: none;
+        padding: 0;
+      }
+      .hoverBlue:hover {
+        background-color: rgb(0, 90, 139);
+      }
+      .hoverOrange:hover {
+        background-color: rgb(204, 143, 29);
+      }
+      .resetTxt {
+        color: gray;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      .resetTxt:hover {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="images/logo.png" class="adminLogo" />
+    <h1 class="adminTxt">Quest App</h1>
+    <a href="soru-ekle.html">
+      <div class="adminBox hoverOrange">
+        <img src="images/add.webp" /> Soru Ekle
+      </div></a
+    >
+    <a href="sorular.html">
+      <div class="adminBox hoverBlue">
+        <img src="images/list.png" /> Soru Düzenle
+      </div></a
+    >
+    <a href="soru-coz.html">
+      <div class="adminBox"><img src="images/play.webp" /> Soru Çöz</div>
+    </a>
+    <p class="resetTxt">Soruları Sıfırla</p>
+    <script>
+      const resetTxt = document.querySelector(".resetTxt");
+      resetTxt.addEventListener("click", function () {
+        localStorage.clear();
+        sorulariYukle();
+        alert("Sorular Sıfırlandı.");
+      });
+
+      window.onload = function () {
+        if (Number(localStorage.getItem("duzenleme")) != 1) {
+          sorulariYukle();
+        }
+      };
+      function sorulariYukle() {
+        localStorage.setItem("eklenenSoru", "0");
+
+        localStorage.setItem(
+          "soru1",
+          "Hangi gezegen 'Kırmızı Gezegen' olarak da bilinir?"
+        );
+        localStorage.setItem("soru1A", "Venüs");
+        localStorage.setItem("soru1B", "Mars");
+        localStorage.setItem("soru1C", "Jüpiter");
+        localStorage.setItem("soru1D", "Uranüs");
+        localStorage.setItem("soru1Cevap", "B");
+        localStorage.setItem("soru1Zorluk", "Kolay");
+
+        localStorage.setItem(
+          "soru2",
+          "Leonardo da Vinci'nin ünlü tablosu 'Mona Lisa' hangi şehirde sergilenmektedir?"
+        );
+        localStorage.setItem("soru2A", "Roma");
+        localStorage.setItem("soru2B", "Madrid");
+        localStorage.setItem("soru2C", "Londra");
+        localStorage.setItem("soru2D", "Paris");
+        localStorage.setItem("soru2Cevap", "D");
+        localStorage.setItem("soru2Zorluk", "Orta");
+
+        localStorage.setItem("soru3", "Antik Roma'da, 'Cursus Honorum' nedir?");
+        localStorage.setItem("soru3A", "Bir askeri eğitim programı");
+        localStorage.setItem("soru3B", "Yükseköğrenim için bir sınav");
+        localStorage.setItem(
+          "soru3C",
+          "Bir politik kariyer basamakları dizisi"
+        );
+        localStorage.setItem("soru3D", "Bir dini ritüel");
+        localStorage.setItem("soru3Cevap", "C");
+        localStorage.setItem("soru3Zorluk", "Zor");
+      }
+    </script>
+  </body>
+</html>
