@@ -1,0 +1,108 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background-color: #222222;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.addBox {
+  color: white;
+  background-color: black;
+  padding: 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.radiobuttons {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+input {
+  margin: 5px;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+input:not([type="radio"]) {
+  width: 500px;
+}
+#orta {
+  margin-left: 20px;
+}
+#zor {
+  margin-left: 20px;
+}
+.secenek {
+  background-color: rgb(222, 220, 220);
+}
+.cevaplar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#B,
+#C,
+#D {
+  margin-left: 20px;
+}
+select {
+  font-size: 15px;
+  padding: 5px;
+}
+label {
+  font-size: 20px;
+}
+input[type="radio"] {
+  scale: 1.5;
+  margin-right: 10px;
+}
+.container {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+button {
+  font-size: 20px;
+  padding: 10px 50px;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.ekleBtn {
+  background-color: green;
+  border: 3px solid darkgreen;
+}
+.ekleBtn:hover {
+  background-color: rgb(23, 187, 20);
+}
+.geriBtn {
+  background-color: darkcyan;
+  border: 3px solid rgb(12, 151, 151);
+}
+.geriBtn:hover {
+  background-color: rgb(8, 209, 209);
+}
+select {
+  padding: 5px 10px;
+  margin-top: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.topTitle {
+  margin-top: 0;
+}
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
