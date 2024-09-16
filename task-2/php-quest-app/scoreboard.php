@@ -1,7 +1,7 @@
 <?php
 include 'db.php';
 
-    $stmt = $db->query("SELECT kullaniciAdi, skor, dogru, yanlis FROM kullanicilar ORDER BY skor DESC");
+    $stmt = $db->query("SELECT kullaniciAdi, skor, dogru, yanlis FROM kullanicilar WHERE rol = 'ogrenci' ORDER BY skor DESC");
     $kullanicilar = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
