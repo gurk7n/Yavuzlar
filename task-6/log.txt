@@ -1,0 +1,8 @@
+2024-10-26 20:07:34: musteri yetkisinde başarılı giriş: musteri
+2024-10-26 20:07:37: musteri adlı müşteri şifresini değiştirdi
+2024-10-26 20:07:42: admin yetkisinde başarılı giriş: admin
+2024-10-26 20:08:08: admin yetkisinde başarılı giriş: admin
+2024-10-26 20:08:17: Yeni müşteri eklendi: deneme
+2024-10-26 20:08:23: Müşteri silindi: deneme
+2024-10-26 20:08:30: admin yetkisinde başarılı giriş: admin
+2024-11-02 20:54:25: admin yetkisinde başarılı giriş: admin
